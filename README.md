@@ -1,6 +1,6 @@
 # Job Portal
 
-A full-stack job portal application where users can register, update their profiles (including uploading resumes and skills), and apply for jobs. Companies can post jobs and manage applicants.
+A full-stack job portal application (using MERN) where users can register, update their profiles (including uploading resumes and skills), and apply for jobs. Companies can post jobs and manage applicants.
 
 ---
 
