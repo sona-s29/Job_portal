@@ -35,7 +35,7 @@ A full-stack job portal application (using MERN) where users can register, updat
 ### 1. Clone the repository
 
 ```sh
-git clone https://github.com/yourusername/job_portal.git
+git clone https://github.com/sona-s29/Job_portal
 cd job_portal
 ```
 
