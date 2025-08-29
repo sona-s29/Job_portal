@@ -13,49 +13,56 @@ export const companies = [
 
 export default function CompanyScroller(){
     return (
-        <div className="w-full max-w-7xl mx-auto my-8">
-            <h2 className="text-white text-center text-5xl font-bold mb-6">Top Companies</h2>
-            <div className="flex flex-col gap-4">
-                {/* First scroller from right to left */}
-                <div className="overflow-hidden whitespace-nowrap bg-slate-900/50 py-6 rounded-2xl shadow-xl w-1/2 mx-auto">
-                    <motion.div
-                        className="flex gap-12"
-                        animate={{ x: ["100%", "-100%"] }}
-                        transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-                    >
-                        {[...companies, ...companies].map((company, index) => (
-                            <div key={index} className="flex items-center gap-3 min-w-max">
-                                <img
-                                    src={company.logo}
-                                    alt={company.name}
-                                    className="h-12 w-auto object-contain rounded-full shadow-lg"
-                                />
-                                <span className="text-lg font-semibold text-gray-300">{company.name}</span>
-                            </div>
-                        ))}
-                    </motion.div>
-                </div>
-                {/* Second scroller from left to right */}
-                <div className="overflow-hidden whitespace-nowrap bg-slate-900/50 py-6 rounded-2xl shadow-xl w-1/2 mx-auto">
-                    <motion.div
-                        className="flex gap-12"
-                        animate={{ x: ["-100%", "100%"] }}
-                        transition={{ repeat: Infinity, duration:20, ease: "linear"}}
-                    >
-                        {[...companies, ...companies].map((company, index) => (
-                            <div key={index} className="flex items-center gap-3 min-w-max">
-                                <img
-                                    src={company.logo}
-                                    alt={company.name}
-                                    className="h-12 w-auto object-contain rounded-full shadow-lg"
-                                />
-                                <span className="text-lg font-semibold text-gray-300">{company.name}</span>
-                            </div>
-                        ))}
-                    </motion.div>
-                </div>
-            </div>
-        </div>
+      <div className="w-full max-w-full mx-auto my-8">
+  <h2 className="text-white text-center text-5xl font-bold mb-6">
+    Top Companies
+  </h2>
+  <div className="flex flex-col gap-4">
+    {/* First scroller from right to left */}
+    <div className="overflow-hidden whitespace-nowrap bg-slate-900/50 py-6 rounded-2xl shadow-xl w-full">
+      <motion.div
+        className="flex gap-12"
+        animate={{ x: ["100%", "-100%"] }}
+        transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+      >
+        {[...companies, ...companies].map((company, index) => (
+          <div key={index} className="flex items-center gap-3 min-w-max">
+            <img
+              src={company.logo}
+              alt={company.name}
+              className="h-12 w-auto object-contain rounded-full shadow-lg"
+            />
+            <span className="text-lg font-semibold text-gray-300">
+              {company.name}
+            </span>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+
+    {/* Second scroller from left to right */}
+    <div className="overflow-hidden whitespace-nowrap bg-slate-900/50 py-6 rounded-2xl shadow-xl w-full">
+      <motion.div
+        className="flex gap-12"
+        animate={{ x: ["-100%", "100%"] }}
+        transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+      >
+        {[...companies, ...companies].map((company, index) => (
+          <div key={index} className="flex items-center gap-3 min-w-max">
+            <img
+              src={company.logo}
+              alt={company.name}
+              className="h-12 w-auto object-contain rounded-full shadow-lg"
+            />
+            <span className="text-lg font-semibold text-gray-300">
+              {company.name}
+            </span>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  </div>
+</div>
     );
 }
 

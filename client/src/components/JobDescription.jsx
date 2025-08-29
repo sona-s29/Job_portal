@@ -71,7 +71,6 @@ const JobDescription = () => {
         };
         fetchSingleJob();
     }, [jobId, dispatch, user?._id]);
-
     return (
         <><Navbar />
         <div className='max-w-7xl mx-auto my-10 bg-gray-900 text-white p-8 rounded-lg shadow-xl'>
