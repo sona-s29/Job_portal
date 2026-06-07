@@ -1,138 +1,114 @@
 import React, { useState } from 'react'
 import { Button } from './ui/button'
-import { Search, Sparkles, TrendingUp, Users } from 'lucide-react'
+import { BriefcaseBusiness, MapPin, Search, TrendingUp } from 'lucide-react'
 import { useDispatch } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
+const popularTags = ["Remote", "Full-time", "React Developer", "Product Manager", "Data Analyst"];
+
+const stats = [
+    { label: "Total Jobs", value: "500K+", delay: "" },
+    { label: "Companies Hiring", value: "10K+", delay: "delay-100" },
+    { label: "Candidates Placed", value: "2M+", delay: "delay-200" },
+];
 
 const HeroSection = () => {
-    const [query, setQuery] = useState("");
+    const [keyword, setKeyword] = useState("");
+    const [location, setLocation] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const searchJobHandler = () => {
+    const searchJobHandler = (tag) => {
+        const query = tag || [keyword, location].filter(Boolean).join(" ");
         dispatch(setSearchedQuery(query));
-        navigate("/browse");
+        navigate("/jobs");
     }
 
     return (
-        <div className='relative min-h-[80vh] flex items-center justify-center overflow-hidden'>
-            {/* Animated Background */}
-            <div className='absolute inset-0'>
-                <div className='absolute inset-0'></div>
-                {/* Animated shapes */}
-                <div className='absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-blue-500/15 to-cyan-500/15 rounded-full blur-xl animate-pulse'></div>
-                <div className='absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-indigo-500/15 to-blue-500/15 rounded-full blur-xl animate-pulse delay-1000'></div>
-                <div className='absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-r from-cyan-500/15 to-teal-500/15 rounded-full blur-xl animate-pulse delay-500'></div>
-            </div>
+        <section className='hero-gradient relative overflow-hidden text-white'>
+            <div className='page-shell grid min-h-[calc(100vh-64px)] items-center gap-10 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-20'>
+                <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }}>
+                    <span className='inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold backdrop-blur'>
+                        <TrendingUp className='h-4 w-4 text-teal-100' />
+                        Join 2 million+ professionals finding better opportunities
+                    </span>
 
-            {/* Main Content */}
-            <div className='relative z-10 text-center px-6 max-w-6xl mx-auto'>
-                <div className='flex flex-col gap-8 my-10'>
-                    {/* Badge */}
-                    <div className='flex justify-center '>
-                        <span className='bg-blue-600 inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold text-sm shadow-lg hover:shadow-xl transition-shadow duration-300 backdrop-blur-sm border border-white/20'>
-                            <Sparkles className='h-4 w-4' />
-                            Leading Global Career Platform
-                            <TrendingUp className='h-4 w-4' />
-                        </span>
+                    <h1 className='mt-6 max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-7xl'>
+                        Find Your <span className='typewriter-word text-teal-100'></span>
+                    </h1>
+
+                    <p className='mt-5 max-w-2xl text-lg leading-8 text-teal-50'>
+                        Search verified roles, save opportunities, apply faster, and connect with employers from one professional job portal.
+                    </p>
+
+                    <div className='mt-8 rounded-lg border border-white/20 bg-white p-2 shadow-2xl'>
+                        <div className='grid gap-2 md:grid-cols-[1fr_1fr_auto] md:items-center'>
+                            <label className='flex h-12 items-center gap-3 rounded-md bg-slate-50 px-4 text-slate-700'>
+                                <Search className='h-5 w-5 text-brand-primary' />
+                                <input
+                                    className='w-full bg-transparent outline-none'
+                                    value={keyword}
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                    placeholder='Job title or keyword'
+                                />
+                            </label>
+                            <label className='flex h-12 items-center gap-3 rounded-md bg-slate-50 px-4 text-slate-700'>
+                                <MapPin className='h-5 w-5 text-brand-accent' />
+                                <input
+                                    className='w-full bg-transparent outline-none'
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                    placeholder='City or remote'
+                                />
+                            </label>
+                            <Button onClick={() => searchJobHandler()} className="h-12 rounded-md primary-gradient">
+                                Search Jobs
+                            </Button>
+                        </div>
                     </div>
 
-                    {/* Main Heading */}
-                    <div className='space-y-4'>
-                        <h1 className='text-5xl md:text-7xl font-bold text-white leading-tight'>
-                            Advance Your Career <br />
-                            Discover{' '}
-                            <span className='bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent animate-gradient'>
-                                Elite Opportunities
-                            </span>
-                        </h1>
-                        
-                        <p className='text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed'>
-                            Connect with industry-leading companies and unlock your professional potential. 
-                            Access exclusive career opportunities tailored to your expertise.
-                        </p>
+                    <div className='mt-5 flex flex-wrap gap-2'>
+                        {popularTags.map((tag) => (
+                            <button
+                                key={tag}
+                                onClick={() => searchJobHandler(tag)}
+                                className='min-h-11 rounded-lg border border-white/20 bg-white/10 px-4 text-sm font-semibold text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white'
+                            >
+                                {tag}
+                            </button>
+                        ))}
                     </div>
 
-                    {/* Search Bar */}
-                    <div className='flex justify-center mt-8'>
-                        <div className='relative w-full max-w-2xl'>
-                            <div className='flex bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 rounded-2xl items-center gap-2 p-2 hover:shadow-3xl transition-all duration-300'>
-                                <div className='flex-1 relative'>
-                                    <input
-                                        type="text"
-                                        placeholder='Search executive positions and career opportunities...'
-                                        value={query}
-                                        onChange={(e) => setQuery(e.target.value)}
-                                        className='w-full px-6 py-4 text-lg outline-none border-none bg-transparent placeholder-gray-500 text-gray-800'
-                                        onKeyPress={(e) => e.key === 'Enter' && searchJobHandler()}
-                                    />
+                    <div className='mt-10 grid gap-4 sm:grid-cols-3'>
+                        {stats.map((stat) => (
+                            <div key={stat.label} className={`counter-pop rounded-lg border border-white/15 bg-white/10 p-5 backdrop-blur ${stat.delay}`}>
+                                <p className='text-3xl font-bold'>{stat.value}</p>
+                                <p className='mt-1 text-sm text-teal-100'>{stat.label}</p>
+                            </div>
+                        ))}
+                    </div>
+                </motion.div>
+
+                <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.65, delay: 0.12 }} className='hidden lg:block'>
+                    <div className='relative ml-auto max-w-md rounded-lg bg-white p-4 text-brand-text shadow-2xl'>
+                        <img loading="lazy" className='aspect-[4/3] w-full rounded-lg object-cover' src='https://source.unsplash.com/900x700/?office,hiring' alt='Professionals collaborating in an office' />
+                        <div className='absolute -bottom-8 -left-8 rounded-lg bg-white p-5 shadow-xl'>
+                            <div className='flex items-center gap-3'>
+                                <span className='flex h-11 w-11 items-center justify-center rounded-md bg-teal-50 text-brand-accent'>
+                                    <BriefcaseBusiness className='h-5 w-5' />
+                                </span>
+                                <div>
+                                    <p className='text-sm text-brand-muted'>New interviews</p>
+                                    <p className='text-2xl font-bold text-brand-text'>+1,248</p>
                                 </div>
-                                <Button 
-                                    onClick={searchJobHandler} 
-                                    className="h-14 px-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                                >
-                                    <Search className='h-5 w-5 mr-2' />
-                                    Explore Roles
-                                </Button>
                             </div>
                         </div>
                     </div>
-
-                    {/* Stats Section */}
-                    <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mt-16'>
-                        <div className='text-center'>
-                            <div className='bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20'>
-                                <div className='text-4xl font-bold text-white mb-2'>50K+</div>
-                                <div className='text-gray-300'>Premium Positions</div>
-                            </div>
-                        </div>
-                        <div className='text-center'>
-                            <div className='bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20'>
-                                <div className='text-4xl font-bold text-white mb-2'>1M+</div>
-                                <div className='text-gray-300'>Career Professionals</div>
-                            </div>
-                        </div>
-                        <div className='text-center'>
-                            <div className='bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20'>
-                                <div className='text-4xl font-bold text-white mb-2'>2K+</div>
-                                <div className='text-gray-300'>Enterprise Partners</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Trust Indicators */}
-                    <div className='mt-12'>
-                        <p className='text-gray-300 mb-6'>Trusted by executives and professionals at</p>
-                        <div className='flex justify-center items-center gap-8 opacity-70'>
-                            <div className='bg-gradient-to-r from-slate-700/50 to-slate-600/50 backdrop-blur-md rounded-lg px-6 py-3 text-white font-semibold border border-white/10'>Google</div>
-                            <div className='bg-gradient-to-r from-slate-700/50 to-slate-600/50 backdrop-blur-md rounded-lg px-6 py-3 text-white font-semibold border border-white/10'>Microsoft</div>
-                            <div className='bg-gradient-to-r from-slate-700/50 to-slate-600/50 backdrop-blur-md rounded-lg px-6 py-3 text-white font-semibold border border-white/10'>Apple</div>
-                            <div className='bg-gradient-to-r from-slate-700/50 to-slate-600/50 backdrop-blur-md rounded-lg px-6 py-3 text-white font-semibold border border-white/10'>Amazon</div>
-                        </div>
-                    </div>
-                </div>
+                </motion.div>
             </div>
-
-
-
-            <style jsx>{`
-                @keyframes gradient {
-                    0% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                    100% { background-position: 0% 50%; }
-                }
-                
-                .animate-gradient {
-                    background-size: 200% 200%;
-                    animation: gradient 3s ease infinite;
-                }
-
-                .shadow-3xl {
-                    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
-                }
-            `}</style>
-        </div>
+        </section>
     )
 }
 

@@ -1,96 +1,244 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Navbar from './components/shared/Navbar'
-import Login from './components/auth/Login'
-import Signup from './components/auth/Signup'
-import Home from './components/Home'
-import Jobs from './components/Jobs'
-import Browse from './components/Browse'
-import Profile from './components/profile'
-import JobDescription from './components/JobDescription'
-import Companies from './components/admin/Companies'
-import CompanyCreate from './components/admin/CompanyCreate'
-import CompanySetup from './components/admin/CompanySetup'
-import AdminJobs from "./components/admin/AdminJobs";
-import PostJob from './components/admin/PostJob'
-import Applicants from './components/admin/Applicants'
-import ProtectedRoute from './components/admin/ProtectedRoute'
-import SavedJobs from './components/savedJobs'
-import AboutUs from './components/About'
+import React, { Suspense, lazy, useEffect } from 'react'
+import { createBrowserRouter, RouterProvider, useLocation } from 'react-router-dom'
+import PageLoader from './components/shared/PageLoader'
+import RouteErrorBoundary from './components/shared/RouteErrorBoundary'
 
+const Login = lazy(() => import('./components/auth/Login'))
+const Signup = lazy(() => import('./components/auth/Signup'))
+const Home = lazy(() => import('./components/Home'))
+const Jobs = lazy(() => import('./components/Jobs'))
+const Browse = lazy(() => import('./components/Browse'))
+const Profile = lazy(() => import('./components/profile'))
+const JobDescription = lazy(() => import('./components/JobDescription'))
+const Companies = lazy(() => import('./components/admin/Companies'))
+const CompanyCreate = lazy(() => import('./components/admin/CompanyCreate'))
+const CompanySetup = lazy(() => import('./components/admin/CompanySetup'))
+const AdminJobs = lazy(() => import('./components/admin/AdminJobs'))
+const PostJob = lazy(() => import('./components/admin/PostJob'))
+const Applicants = lazy(() => import('./components/admin/Applicants'))
+const ProtectedRoute = lazy(() => import('./components/admin/ProtectedRoute'))
+const SavedJobs = lazy(() => import('./components/savedJobs'))
+const AboutUs = lazy(() => import('./components/About'))
+const PromptPage = lazy(() => import('./pages/PromptPage'))
+const NotFound = lazy(() => import('./pages/NotFound'))
+
+const ScrollToTop = ({ children }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [location.pathname, location.search]);
+
+  return children;
+}
+
+const withSuspense = (element) => (
+  <Suspense fallback={<PageLoader />}>
+    <ScrollToTop>{element}</ScrollToTop>
+  </Suspense>
+)
+
+const protectedElement = (element) => withSuspense(<ProtectedRoute>{element}</ProtectedRoute>)
 
 const appRouter = createBrowserRouter([
   {
     path: '/',
-    element: <Home />
+    element: withSuspense(<Home />),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path: '/login',
-    element: <Login />
+    element: withSuspense(<Login />),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path: '/signup',
-    element: <Signup />
+    element: withSuspense(<Signup />),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/jobs",
-    element: <Jobs />
+    element: withSuspense(<Jobs />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/jobs/:id",
+    element: withSuspense(<JobDescription />),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/description/:id",
-    element: <JobDescription />
+    element: withSuspense(<JobDescription />),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/browse",
-    element: <Browse />
+    element: withSuspense(<Browse />),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/profile",
-    element: <Profile />
+    element: withSuspense(<Profile />),
+    errorElement: <RouteErrorBoundary />,
   },
-   {
+  {
+    path: "/profile/:id",
+    element: withSuspense(<Profile />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
     path: "/saved-jobs",
-    element: <SavedJobs />
+    element: withSuspense(<SavedJobs />),
+    errorElement: <RouteErrorBoundary />,
   },
-
-   {
+  {
     path: "/about-us",
-    element: <AboutUs />
+    element: withSuspense(<AboutUs />),
+    errorElement: <RouteErrorBoundary />,
   },
-
-  // admin ke liye yha se start hoga
+  {
+    path: "/about",
+    element: withSuspense(<AboutUs />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/contact",
+    element: withSuspense(<PromptPage type="contact" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/faq",
+    element: withSuspense(<PromptPage type="faq" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/privacy-policy",
+    element: withSuspense(<PromptPage type="privacy" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/terms-of-service",
+    element: withSuspense(<PromptPage type="terms" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/cookies-policy",
+    element: withSuspense(<PromptPage type="cookies" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/companies",
+    element: withSuspense(<PromptPage type="companies" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/companies/:id",
+    element: withSuspense(<PromptPage type="companyDetail" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/courses",
+    element: withSuspense(<PromptPage type="courses" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/courses/:id",
+    element: withSuspense(<PromptPage type="courseDetail" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/subscription",
+    element: withSuspense(<PromptPage type="subscription" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/partnership",
+    element: withSuspense(<PromptPage type="partnership" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/blog",
+    element: withSuspense(<PromptPage type="blog" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/blog/:slug",
+    element: withSuspense(<PromptPage type="blogPost" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/notifications",
+    element: withSuspense(<PromptPage type="notifications" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/messages",
+    element: withSuspense(<PromptPage type="messages" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/settings",
+    element: withSuspense(<PromptPage type="settings" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/resume-builder",
+    element: withSuspense(<PromptPage type="resume" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/salary-insights",
+    element: withSuspense(<PromptPage type="salary" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/dashboard",
+    element: withSuspense(<PromptPage type="notifications" />),
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/employer/dashboard",
+    element: withSuspense(<PromptPage type="settings" />),
+    errorElement: <RouteErrorBoundary />,
+  },
   {
     path:"/admin/companies",
-    element: <ProtectedRoute><Companies/></ProtectedRoute>
+    element: protectedElement(<Companies/>),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path:"/admin/companies/create",
-    element: <ProtectedRoute><CompanyCreate/></ProtectedRoute> 
+    element: protectedElement(<CompanyCreate/>),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path:"/admin/companies/:id",
-    element:<ProtectedRoute><CompanySetup/></ProtectedRoute> 
+    element: protectedElement(<CompanySetup/>),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path:"/admin/jobs",
-    element:<ProtectedRoute><AdminJobs/></ProtectedRoute> 
+    element: protectedElement(<AdminJobs/>),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path:"/admin/jobs/create",
-    element:<ProtectedRoute><PostJob/></ProtectedRoute> 
+    element: protectedElement(<PostJob/>),
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path:"/admin/jobs/:id/applicants",
-    element:<ProtectedRoute><Applicants/></ProtectedRoute> 
+    element: protectedElement(<Applicants/>),
+    errorElement: <RouteErrorBoundary />,
   },
-
+  {
+    path: "*",
+    element: withSuspense(<NotFound />),
+  },
 ])
-function App() {
 
-  return (
-    <div>
-      <RouterProvider router={appRouter} />
-    </div>
-  )
+function App() {
+  return <RouterProvider router={appRouter} />
 }
 
 export default App

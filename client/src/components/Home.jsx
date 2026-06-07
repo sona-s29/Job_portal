@@ -7,6 +7,7 @@ import useGetAllJobs from '@/hooks/useGetAllJobs'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import CompanyScroller from './CompanyScroller'
+import { HowItWorks, JobCategories, SplitCTA, Testimonials } from './HomePromptSections'
 
 const Home = () => {
   useGetAllJobs();
@@ -25,6 +26,10 @@ const Home = () => {
       <HeroSection />
       <LatestJobs />
       <CompanyScroller />
+      <JobCategories />
+      <HowItWorks />
+      <Testimonials />
+      <SplitCTA />
       <Footer />
     </div>
   )

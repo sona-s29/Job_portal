@@ -20,11 +20,16 @@ const Browse = () => {
     return (
         <>
         <Navbar />
-        <div className=' min-h-screen text-white pt-20'>
-         
-            <div className='max-w-7xl mx-auto my-10 px-4'>
-                <h1 className='font-bold text-xl my-10'>Search Results ({allJobs.length})</h1>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <main className='min-h-screen py-12'>
+            <div className='page-shell'>
+                <div className='mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end'>
+                    <div>
+                        <p className='section-eyebrow'>Search results</p>
+                        <h1 className='section-title mt-2'>{allJobs.length} matching jobs</h1>
+                    </div>
+                    <p className='text-sm text-slate-600'>Review details, save roles, and apply when the fit looks right.</p>
+                </div>
+                <div className='grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3'>
                     {
                         allJobs.map((job) => {
                             return (
@@ -34,8 +39,7 @@ const Browse = () => {
                     }
                 </div>
             </div>
-           
-        </div>
+        </main>
          <Footer />
         </>
 

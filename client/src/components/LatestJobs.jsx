@@ -2,37 +2,37 @@ import React from 'react'
 import LatestJobCards from './LatestJobCards';
 import { useSelector } from 'react-redux'; 
 
-// const randomJobs = [1, 2, 3, 4, 5, 6, 7, 8];
-
-
-
 const LatestJobs = () => {
-    // We will use the mock data instead of useSelector to make the component runnable.
     const {allJobs} = useSelector(store=>store.job);
    
 
     return (
-        // Main container with the same dark gradient background.
-        <div className=' min-h-screen flex flex-col items-center justify-start p-10 text-white '>
-            {/* Main heading with a modern style and color accent */}
-            <h1 className='text-4xl font-extrabold text-white text-center mb-12  underline-offset-8 decoration-4 decoration-cyan-400 underline'>
-                <span className='text-cyan-400'>Trending</span> Job Openings
-            </h1>
-            
-            {/* Grid container for job cards with a responsive layout */}
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl'>
+        <section className='py-16'>
+            <div className='page-shell'>
+                <div className='mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end'>
+                    <div>
+                        <p className='section-eyebrow'>Fresh opportunities</p>
+                        <h1 className='section-title mt-2'>Trending job openings</h1>
+                    </div>
+                    <p className='max-w-xl text-sm leading-6 text-slate-600'>
+                        Explore roles from growing teams with clear job details, salary information,
+                        and simple save or apply actions.
+                    </p>
+                </div>
+
+                <div className='grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3'>
                 {
-                    // Check if there are jobs and map through them to display.
                     allJobs.length <= 0 ? (
-                        <span className="text-center text-lg text-gray-400">No Job Available</span>
+                        <span className="col-span-full rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center text-slate-500">No jobs available yet</span>
                     ) : (
                         allJobs.slice(0, 6).map((job) => (
                             <LatestJobCards key={job._id} job={job} />
                         ))
                     )
                 }
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 

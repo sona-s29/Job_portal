@@ -27,7 +27,7 @@ const ApplicantsTable = () => {
     }
 
     return (
-        <div className='p-8 bg-[#0f172a]  min-h-screen rounded-xl shadow-lg text-white border'>
+        <div className='p-8 bg-[#0f172a]  min-h-screen rounded-md shadow-lg text-white border'>
              <h1 className='text-2xl text-center font-bold mb-6'>Applicants List</h1>
            <Table className="rounded-lg overflow-hidden border border-[#1e3a8a]">
                        <TableCaption className="p-4 text-center text-gray-400 text-sm">A list of the recent applicants</TableCaption>
@@ -50,7 +50,7 @@ const ApplicantsTable = () => {
                                 <TableCell>{item?.applicant?.phoneNumber}</TableCell>
                                 <TableCell >
                                     {
-                                        item.applicant?.profile?.resume ? <a className="text-blue-600 cursor-pointer" href={item?.applicant?.profile?.resume} target="_blank" rel="noopener noreferrer">{item?.applicant?.profile?.resumeOriginalName}</a> : <span>NA</span>
+                                        item.applicant?.profile?.resume ? <a className="text-brand-primary cursor-pointer" href={item?.applicant?.profile?.resume} target="_blank" rel="noopener noreferrer">{item?.applicant?.profile?.resumeOriginalName}</a> : <span>NA</span>
                                     }
                                 </TableCell>
                                 <TableCell>{item?.applicant.createdAt.split("T")[0]}</TableCell>

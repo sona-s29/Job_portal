@@ -66,12 +66,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         console.log(input);
     }
 
-
-
     return (
         <div >
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="sm:max-w-[425px] bg-gray-300 text-black" onInteractOutside={() => setOpen(false)}>
+                <DialogContent className="sm:max-w-[425px] bg-white text-brand-text" onInteractOutside={() => setOpen(false)}>
                     <DialogHeader>
                         <DialogTitle>Update Profile</DialogTitle>
                     </DialogHeader>
@@ -143,10 +141,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                         </div>
                         <DialogFooter>
                             {
-                                loading ? <Button className="w-full my-4 bg-blue-800">
+                                loading ? <Button className="w-full my-4 primary-gradient">
                                      <Loader2 className='mr-2 h-4 w-4  animate-spin' /> Please wait
                                       </Button> : 
-                                      <Button type="submit" className="w-full my-4 bg-blue-800">Update</Button>
+                                      <Button type="submit" className="w-full my-4 primary-gradient">Update</Button>
                             }
                         </DialogFooter>
                     </form>

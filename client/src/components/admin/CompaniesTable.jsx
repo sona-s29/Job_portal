@@ -21,7 +21,7 @@ const CompaniesTable = () => {
         setFilterCompany(filteredCompany);
     },[companies,searchCompanyByText])
     return (
-       <div className='p-8 bg-[#0f172a]  min-h-screen rounded-xl shadow-lg text-white border'>
+       <div className='p-8 bg-[#0f172a]  min-h-screen rounded-md shadow-lg text-white border'>
                     <h1 className='text-2xl text-center font-bold mb-6'>Companies List</h1>
                   <Table className="rounded-lg overflow-hidden border border-[#1e3a8a]">
                               <TableCaption className="p-4 text-center text-gray-400 text-sm">A list of your registered companies</TableCaption>

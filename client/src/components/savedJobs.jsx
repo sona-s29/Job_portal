@@ -8,37 +8,49 @@ import { useNavigate } from "react-router";
 
 const SavedJobs = () => {
   const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const { items, loading } = useSelector((s) => s.savedJobs);
-const { user } = useSelector((s) => s.auth);
+  const { user } = useSelector((s) => s.auth);
+
   useEffect(() => {
     if (!user) {
-      navigate("/login"); // redirect to login if not logged in
+      navigate("/login");
       return;
     }
     dispatch(fetchSavedJobs());
-  }, [dispatch,user, navigate]);
+  }, [dispatch, user, navigate]);
 
-  if (loading) return <p className="p-4 text-white">Loading saved jobs…</p>;
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <main className="page-shell min-h-screen py-12">
+          <p className="professional-card p-8 text-center text-slate-500">Loading saved jobs...</p>
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
-
-      {/* Main content takes available space */}
-      <main className="flex-grow">
-          <h1 className="text-3xl  text-white font-bold p-8">Your Saved Jobs</h1>
-
-        <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-3 text-white">
-          {items.length === 0 ? (
-            <p>No saved jobs yet.</p>
-          ) : (
-            items.map((job) => <Job key={job._id} job={job} />)
-          )}
+      <main className="page-shell flex-grow py-12">
+        <div className="mb-8">
+          <p className="section-eyebrow">Your shortlist</p>
+          <h1 className="section-title mt-2">Saved jobs</h1>
         </div>
-      </main>
 
-      {/* Footer always at bottom */}
+        {items.length === 0 ? (
+          <p className="rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">
+            No saved jobs yet.
+          </p>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {items.map((job) => <Job key={job._id} job={job} />)}
+          </div>
+        )}
+      </main>
       <Footer />
     </div>
   );

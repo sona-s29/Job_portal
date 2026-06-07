@@ -1,70 +1,124 @@
-import React from 'react';
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronDown, Facebook, Instagram, Linkedin, Send, Twitter } from 'lucide-react';
+
+const footerColumns = [
+  {
+    title: 'About Us',
+    links: [
+      { label: 'Our Story', to: '/about' },
+      { label: 'Mission', to: '/about' },
+      { label: 'Team', to: '/about' },
+      { label: 'Careers', to: '/jobs' },
+      { label: 'Press', to: '/blog' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    title: 'For Job Seekers',
+    links: [
+      { label: 'Browse Jobs', to: '/jobs' },
+      { label: 'Saved Jobs', to: '/saved-jobs' },
+      { label: 'Resume Builder', to: '/resume-builder' },
+      { label: 'Salary Insights', to: '/salary-insights' },
+      { label: 'Courses', to: '/courses' },
+      { label: 'FAQ', to: '/faq' },
+    ],
+  },
+  {
+    title: 'For Employers',
+    links: [
+      { label: 'Post a Job', to: '/admin/jobs/create' },
+      { label: 'Employer Dashboard', to: '/employer/dashboard' },
+      { label: 'Pricing', to: '/subscription' },
+      { label: 'Partnerships', to: '/partnership' },
+      { label: 'Applicants', to: '/admin/jobs' },
+      { label: 'Support', to: '/contact' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Blog', to: '/blog' },
+      { label: 'Privacy Policy', to: '/privacy-policy' },
+      { label: 'Terms of Service', to: '/terms-of-service' },
+      { label: 'Cookies Policy', to: '/cookies-policy' },
+      { label: 'Messages', to: '/messages' },
+      { label: 'Notifications', to: '/notifications' },
+    ],
+  },
+];
+
+const trustBadges = ['10,000+ Companies', '500K+ Jobs', '2M+ Candidates'];
+
+const FooterColumn = ({ column }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-white/10 pb-4 md:border-0 md:pb-0">
+      <button type="button" className="flex w-full items-center justify-between text-left md:pointer-events-none md:block" onClick={() => setOpen((value) => !value)}>
+        <h3 className="text-lg font-semibold text-white">{column.title}</h3>
+        <ChevronDown className={`h-4 w-4 transition md:hidden ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <ul className={`mt-4 space-y-2 ${open ? 'block' : 'hidden'} md:block`}>
+        {column.links.map((link) => (
+          <li key={link.label}>
+            <Link to={link.to} className="text-sm text-teal-50 underline-offset-4 transition hover:text-white hover:underline">{link.label}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 const Footer = () => {
   return (
-    // The main footer container with a dark background and padding.
-    <footer className="bg-slate-900 text-gray-300 py-12">
-      <div className="container mx-auto px-4">
-        {/* Main grid layout for the footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left">
-          
-          {/* Logo and Copyright Section */}
-          <div className="mb-6 lg:mb-0">
-            <h2 className="text-3xl font-bold text-white tracking-wider">Career<span className='text-sky-500'>Hive</span></h2>
-            <p className="text-sm mt-2 text-gray-500">
-              © {new Date().getFullYear()} Your Company. All rights reserved.
-            </p>
-          </div>
-
-          {/* Company Links Section */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Company</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="/about-us" className="hover:text-white transition-colors duration-300">About Us</a>
-              </li>
-               <li>
-                <a href="/jobs" className="hover:text-white transition-colors duration-300">FAQ</a>
-              </li>
-            </ul>
-          </div>
-  {/* Email */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
-            <ul className="space-y-2">
-              <li>
-              <strong>Email :</strong> contact@careerhive.com 
-              </li>
-            </ul>
-          </div>
-         
-
-          {/* Social Icons Section */}
-          <div className="md:col-span-2 lg:col-span-1">
-            <h3 className="text-lg font-semibold text-white mb-4">Follow Us</h3>
-            <div className="flex justify-center md:justify-start space-x-6">
-              {/* Facebook Icon */}
-              <a href="https://facebook.com" className="hover:text-blue-500 transform hover:scale-110 transition-transform duration-300" aria-label="Facebook">
-                <FaFacebook className='text-3xl' />
-              </a>
-              {/* Twitter Icon */}
-              <a href="https://twitter.com" className="hover:text-blue-400 transform hover:scale-110 transition-transform duration-300" aria-label="Twitter">
-               <FaTwitter className='text-3xl'/>
-              </a>
-              {/* LinkedIn Icon */}
-              <a href="https://linkedin.com" className="hover:text-blue-700 transform hover:scale-110 transition-transform duration-300" aria-label="LinkedIn">
-                <FaLinkedin className='text-3xl'/>
-              </a>
-              {/* Instagram Icon */}
-              <a href="https://instagram.com" className="hover:text-pink-500 transform hover:scale-110 transition-transform duration-300" aria-label="Instagram">
-               <FaInstagram className='text-3xl'/>
-              </a>
-
+    <footer className="bg-brand-secondary py-12 text-teal-50">
+      <div className="page-shell">
+        <div className="mb-10 grid gap-4 md:grid-cols-3">
+          {trustBadges.map((badge) => (
+            <div key={badge} className="rounded-lg border border-white/15 bg-white/10 p-4 text-center font-bold text-white">
+              {badge}
             </div>
+          ))}
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_2fr]">
+          <div>
+            <h2 className="bg-gradient-to-r from-white via-teal-100 to-emerald-200 bg-clip-text text-3xl font-bold text-transparent">CareerHive</h2>
+            <p className="mt-3 max-w-md text-sm leading-6">
+              A professional job portal for candidates, recruiters, learning, insights, and better hiring decisions.
+            </p>
+            <form className="mt-6 flex gap-2">
+              <input aria-label="Newsletter email" className="h-11 min-w-0 flex-1 rounded-lg border border-white/20 bg-white/10 px-4 text-white placeholder:text-teal-100 outline-none focus:ring-2 focus:ring-brand-accent" placeholder="Email for career updates" />
+              <button type="submit" className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-white px-4 font-semibold text-brand-primary transition hover:scale-[1.02]">
+                <Send className="h-4 w-4" />
+                Join
+              </button>
+            </form>
           </div>
 
-         
+          <div className="grid gap-5 md:grid-cols-4">
+            {footerColumns.map((column) => <FooterColumn key={column.title} column={column} />)}
+          </div>
+        </div>
+
+        <div className="mt-10 flex flex-col items-center justify-between gap-5 border-t border-white/10 pt-6 md:flex-row">
+          <p className="text-sm">Copyright {new Date().getFullYear()} CareerHive. All rights reserved.</p>
+          <div className="flex gap-3">
+            {[
+              { label: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
+              { label: 'Twitter', href: 'https://twitter.com', icon: Twitter },
+              { label: 'Facebook', href: 'https://facebook.com', icon: Facebook },
+              { label: 'Instagram', href: 'https://instagram.com', icon: Instagram },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <a key={item.label} href={item.href} aria-label={item.label} className="flex h-10 w-10 items-center justify-center rounded-md border border-white/10 transition hover:bg-white/10 hover:text-white">
+                  <Icon className="h-5 w-5" />
+                </a>
+              );
+            })}
+          </div>
         </div>
       </div>
     </footer>
