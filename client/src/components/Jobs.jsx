@@ -135,35 +135,35 @@ const Jobs = () => {
                 </section>
 
                 <section className='page-shell -mt-6'>
-                    <div className='professional-card rounded-md p-3 shadow-xl shadow-teal-100'>
-                        <div className='grid gap-3 md:grid-cols-[1fr_1fr_auto] md:items-center'>
-                            <label className='field-surface flex h-12 items-center gap-3 px-4'>
+                    <div className='professional-card rounded-md p-3 shadow-xl shadow-teal-100 md:p-4'>
+                        <div className='grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] lg:items-center'>
+                            <label className='field-surface flex h-12 min-w-0 items-center gap-3 px-4'>
                                 <Search className='h-5 w-5 text-brand-primary' />
                                 <input
                                     value={filters.keyword}
                                     onChange={(e) => updateFilter('keyword', e.target.value)}
                                     placeholder='Search job title, company, or skill'
-                                    className='w-full bg-transparent text-sm outline-none'
+                                    className='min-w-0 w-full bg-transparent text-sm outline-none'
                                 />
                             </label>
-                            <label className='field-surface flex h-12 items-center gap-3 px-4'>
+                            <label className='field-surface flex h-12 min-w-0 items-center gap-3 px-4'>
                                 <MapPin className='h-5 w-5 text-brand-secondary' />
                                 <input
                                     value={filters.location}
                                     onChange={(e) => updateFilter('location', e.target.value)}
                                     placeholder='Location or remote'
-                                    className='w-full bg-transparent text-sm outline-none'
+                                    className='min-w-0 w-full bg-transparent text-sm outline-none'
                                 />
                             </label>
-                            <Button onClick={() => setMobileFiltersOpen(true)} variant="outline" className='h-12 rounded-md border-teal-100 lg:hidden'>
-                                <SlidersHorizontal className='mr-2 h-4 w-4' />
-                                Filters
-                            </Button>
-                            <Button className='hidden h-12 rounded-md primary-gradient md:inline-flex'>
+                            <Button className='h-12 w-full rounded-md primary-gradient lg:w-auto lg:px-7'>
                                 <Search className='mr-2 h-4 w-4' />
                                 Search
                             </Button>
                         </div>
+                        <Button onClick={() => setMobileFiltersOpen(true)} variant="outline" className='mt-3 h-12 w-full rounded-md border-teal-100 lg:hidden'>
+                            <SlidersHorizontal className='mr-2 h-4 w-4' />
+                            Filters
+                        </Button>
                     </div>
                 </section>
 

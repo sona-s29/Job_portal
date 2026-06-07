@@ -93,7 +93,7 @@ const HeroSection = () => {
 
                 <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.65, delay: 0.12 }} className='hidden lg:block'>
                     <div className='relative ml-auto max-w-md rounded-lg bg-white p-4 text-brand-text shadow-2xl'>
-                        <img loading="lazy" className='aspect-[4/3] w-full rounded-lg object-cover' src='https://source.unsplash.com/900x700/?office,hiring' alt='Professionals collaborating in an office' />
+                        <img loading="lazy" className='aspect-[4/3] w-full rounded-lg object-cover' src='https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=900&q=80' alt='Professionals collaborating in an office' />
                         <div className='absolute -bottom-8 -left-8 rounded-lg bg-white p-5 shadow-xl'>
                             <div className='flex items-center gap-3'>
                                 <span className='flex h-11 w-11 items-center justify-center rounded-md bg-teal-50 text-brand-accent'>

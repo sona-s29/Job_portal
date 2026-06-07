@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import dotenv from "dotenv";
+import "./utils/env.js";
 import connectDB  from "./utils/db.js";
 import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js"
@@ -15,8 +15,6 @@ import { fileURLToPath } from 'url';
 // Proper __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-dotenv.config({ path: path.join(__dirname, "..", ".env") });
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -32,12 +30,18 @@ const allowedOrigins = [
     "http://localhost:5174",
     "http://127.0.0.1:5174",
     process.env.CLIENT_URL,
+    ...(process.env.CLIENT_URLS || "").split(",").map((url) => url.trim()),
 ].filter(Boolean);
 
 const corsOptions ={
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            return callback(null, true);
+        try {
+            const hostname = origin ? new URL(origin).hostname : "";
+            if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/.test(hostname)) {
+                return callback(null, true);
+            }
+        } catch {
+            return callback(new Error("Invalid CORS origin"));
         }
         return callback(new Error("Not allowed by CORS"));
     },

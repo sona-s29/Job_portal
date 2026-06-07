@@ -4,6 +4,28 @@ import jwt from "jsonwebtoken";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
+const isProduction =
+    process.env.NODE_ENV === "production" ||
+    process.env.RENDER === "true" ||
+    process.env.VERCEL === "1" ||
+    process.env.COOKIE_SECURE === "true";
+const authCookieOptions = {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    maxAge: 1 * 24 * 60 * 60 * 1000,
+};
+
+const toClientUser = (user) => ({
+    id: user._id,
+    _id: user._id,
+    fullname: user.fullname,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    role: user.role,
+    profile: user.profile,
+});
+
 // for registration or new user
 export const register = async (req, res) => {
     try {
@@ -17,9 +39,6 @@ export const register = async (req, res) => {
             });
         };
 
-        const file = req.file;
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
         // checking duplicate email entered by the user
         const user = await User.findOne({ email })
         if (user) {
@@ -31,6 +50,12 @@ export const register = async (req, res) => {
 
         // converting password in hash
         const hashedPassword = await bcrypt.hash(password, 8);
+        let profilePhoto = "";
+        const fileUri = getDataUri(req.file);
+        if (fileUri) {
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            profilePhoto = cloudResponse.secure_url;
+        }
 
         await User.create({
             fullname,
@@ -39,7 +64,7 @@ export const register = async (req, res) => {
             password: hashedPassword,
             role,
              profile:{
-                profilePhoto:cloudResponse.secure_url,
+                profilePhoto,
             }
         })
 
@@ -50,6 +75,10 @@ export const register = async (req, res) => {
 
     } catch (err) {
         console.log(err)
+        return res.status(500).json({
+            message: "Signup failed. Please try again.",
+            success: false,
+        });
     }
 }
 
@@ -66,7 +95,7 @@ export const login = async (req, res) => {
         }
 
         let user = await User.findOne({ email })
-        if (!email) {
+        if (!user) {
             return res.status(400).json({
                 message: "Incorrect email or password",
                 success: false,
@@ -90,28 +119,32 @@ export const login = async (req, res) => {
         }
 
         // generating token 
+        if (!process.env.SECRET_KEY) {
+            return res.status(500).json({
+                message: "Server auth secret is missing.",
+                success: false,
+            });
+        }
+
         const tokenData = {
             user: user._id
         }
 
         const token =  jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-        user = {
-            id: user._id,
-            fullname: user.fullname,
-            email: user.email,
-             phoneNumber: user. phoneNumber,
-            role: user.role,
-            profile: user.profile
-        }
+        user = toClientUser(user);
 
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
+        return res.status(200).cookie("token", token, authCookieOptions).json({
             message: `Welcome back ${user.fullname}`,
             user,
             success: true
         })
     } catch (err) {
         console.log(err)
+        return res.status(500).json({
+            message: "Login failed. Please try again.",
+            success: false,
+        });
 
     }
 }
@@ -119,7 +152,10 @@ export const login = async (req, res) => {
 // for logout
 export const logout = async (req, res) =>{
     try{
-        return res.status(200).cookie("token", "", {maxAge:0}).json({
+        return res.status(200).cookie("token", "", {
+            ...authCookieOptions,
+            maxAge: 0,
+        }).json({
             message:"Logged out successfully.",
             success:true
 
@@ -127,6 +163,10 @@ export const logout = async (req, res) =>{
 
     } catch(err){
  console.log(err)
+ return res.status(500).json({
+    message: "Logout failed. Please try again.",
+    success: false,
+ });
     }
 }
 
@@ -134,10 +174,6 @@ export const logout = async (req, res) =>{
 export const updateProfile = async (req, res) =>{
     try{
         const {fullname, email,  phoneNumber, bio, skills} = req.body;
-        const file = req.file;
-         // cloudinary will be here 
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
         let skillsArray;
         if(skills){
             skillsArray = skills.split(",");
@@ -165,21 +201,16 @@ export const updateProfile = async (req, res) =>{
 
         // resume will also come here later.......
 
-        if (cloudResponse){
+        const fileUri = getDataUri(req.file);
+        if (fileUri){
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
             user.profile.resume = cloudResponse.secure_url  //save the cloudinary url
-            user.profile.resumeOriginalName = file.originalname // save the original file name
+            user.profile.resumeOriginalName = req.file.originalname // save the original file name
         }
 
         await user.save();
 
-          user = {
-            id: user._id,
-            fullname: user.fullname,
-            email: user.email,
-             phoneNumber: user. phoneNumber,
-            role: user.role,
-            profile: user.profile
-        }
+          user = toClientUser(user);
 
         return res.status(200).json({
             message:"Profile updated successfully",
@@ -189,5 +220,9 @@ export const updateProfile = async (req, res) =>{
 
     }catch(err){
         console.log(err)
+        return res.status(500).json({
+            message: "Profile update failed. Please try again.",
+            success: false,
+        });
     }
 }

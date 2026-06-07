@@ -6,6 +6,7 @@ import { Badge } from "./ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSaveJob } from "@/hooks/useSavedJobsActions";
+import { companyLogoUrl, fallbackLogoUrl } from "@/utils/companyAssets";
 
 const Job = ({ job }) => {
   const navigate = useNavigate();
@@ -37,7 +38,9 @@ const Job = ({ job }) => {
   const daysAgo = daysAgoFunction(job?.createdAt);
   const isNew = daysAgo <= 2;
 
-  const logoFallback = `https://logo.clearbit.com/${(job?.company?.name || "google").toLowerCase().replace(/\s+/g, "")}.com`;
+  const companyName = job?.company?.name || "Company";
+  const guessedDomain = `${companyName.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`;
+  const logoFallback = companyLogoUrl(guessedDomain);
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-md border border-teal-100 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-100">
@@ -58,12 +61,19 @@ const Job = ({ job }) => {
               <AvatarImage src={job?.company?.logo} />
             </Avatar>
           ) : (
-            <img src={logoFallback} alt={`${job?.company?.name || "Company"} logo`} className="h-10 w-10 rounded-lg object-contain" />
+            <img
+              src={logoFallback}
+              alt={`${companyName} logo`}
+              onError={(event) => {
+                event.currentTarget.src = fallbackLogoUrl(companyName);
+              }}
+              className="h-10 w-10 rounded-lg object-contain"
+            />
           )}
         </div>
         <div className="min-w-0">
           <h1 className="truncate text-base font-bold text-brand-text">
-            {job?.company?.name || "Company"}
+            {companyName}
           </h1>
           <p className="mt-1 flex items-center gap-1 text-sm text-brand-muted">
             <MapPin className="h-3.5 w-3.5" />

@@ -1,3 +1,5 @@
+import { companyLogoUrl, fallbackLogoUrl } from "@/utils/companyAssets";
+
 const companies = [
     { name: "Google", domain: "google.com" },
     { name: "Microsoft", domain: "microsoft.com" },
@@ -11,17 +13,18 @@ const companies = [
     { name: "Atlassian", domain: "atlassian.com" },
 ]
 
-const logoFor = (domain) => `https://logo.clearbit.com/${domain}`;
-
 const LogoRow = ({ reverse = false }) => (
     <div className="overflow-hidden whitespace-nowrap py-4">
         <div className={`flex w-max gap-6 px-6 ${reverse ? "marquee-right" : "marquee-left"}`}>
             {[...companies, ...companies].map((company, index) => (
                 <div key={`${company.name}-${index}`} className="flex min-w-52 items-center gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
                     <img
-                        src={logoFor(company.domain)}
+                        src={companyLogoUrl(company.domain)}
                         alt={`${company.name} logo`}
                         loading="lazy"
+                        onError={(event) => {
+                            event.currentTarget.src = fallbackLogoUrl(company.name);
+                        }}
                         className="h-12 w-12 rounded-lg bg-white object-contain p-1"
                     />
                     <span className="font-semibold text-brand-text">{company.name}</span>
