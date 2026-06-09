@@ -36,24 +36,28 @@ const CompanyCreate = () => {
     return (
         <div>
             <Navbar />
-            <div className='max-w-4xl mx-auto border my-10 bg-black text-white p-10'>
-                <div className='my-10'>
-                    <h1 className='font-bold text-4xl pb-2'>Your Company Name</h1>
-                    <p className='text-gray-400'>What would you like to give your company name? you can change this later.</p>
+            <main className='page-shell my-10'>
+            <div className='professional-card mx-auto max-w-3xl overflow-hidden'>
+                <div className='border-b border-slate-200 bg-white px-6 py-6 sm:px-8'>
+                    <h1 className='text-3xl font-bold text-slate-950'>Your Company Name</h1>
+                    <p className='mt-2 text-slate-500'>Choose a company name now. You can change it later.</p>
                 </div>
-
-                <Label className='text-2xl'>Company Name</Label>
+                <div className='p-6 sm:p-8'>
+                <Label className='text-sm font-semibold text-slate-700'>Company Name</Label>
                 <Input
                     type="text"
-                    className="my-3 py-8 text-2xl"
+                    className="my-3 h-14 bg-white text-lg"
                     placeholder="JobHunt, Microsoft etc."
                     onChange={(e) => setCompanyName(e.target.value)}
                 />
-                <div className='flex items-center gap-2 my-10 '>
-                    <Button className='bg-red-800' onClick={() => navigate("/admin/companies")}>Cancel</Button>
-                    <Button className='bg-cyan-800' onClick={registerNewCompany}>Continue</Button>
+                <div className='mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center'>
+                    <Button variant="outline" className='border-slate-200 text-slate-700 hover:bg-slate-50' onClick={() => navigate("/admin/companies")}>Cancel</Button>
+                    <Button className='primary-gradient' onClick={registerNewCompany}>Continue</Button>
                 </div>
-            </div>
+                </div>
+                </div>
+            </main>
+            <Footer />
         </div>
     )
 }

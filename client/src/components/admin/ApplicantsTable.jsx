@@ -27,43 +27,46 @@ const ApplicantsTable = () => {
     }
 
     return (
-        <div className='p-8 bg-[#0f172a]  min-h-screen rounded-md shadow-lg text-white border'>
-             <h1 className='text-2xl text-center font-bold mb-6'>Applicants List</h1>
-           <Table className="rounded-lg overflow-hidden border border-[#1e3a8a]">
-                       <TableCaption className="p-4 text-center text-gray-400 text-sm">A list of the recent applicants</TableCaption>
-                <TableHeader className="bg-[#1e3a8a] font-bold text-gray-300 text-12x">
+        <div className='professional-card overflow-hidden'>
+            <div className='border-b border-slate-200 bg-white px-6 py-5'>
+                <h1 className='text-xl font-bold text-slate-950'>Applicants List</h1>
+                <p className='mt-1 text-sm text-slate-500'>Review recent applicants and update their status.</p>
+            </div>
+            <Table>
+                <TableCaption className="p-4 text-center text-sm text-slate-500">A list of the recent applicants</TableCaption>
+                <TableHeader className="bg-slate-50">
                     <TableRow>
-                        <TableHead>FullName</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Contact</TableHead>
-                        <TableHead>Resume</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead className="text-right">Action</TableHead>
+                        <TableHead className="font-semibold text-slate-600">Full Name</TableHead>
+                        <TableHead className="font-semibold text-slate-600">Email</TableHead>
+                        <TableHead className="font-semibold text-slate-600">Contact</TableHead>
+                        <TableHead className="font-semibold text-slate-600">Resume</TableHead>
+                        <TableHead className="font-semibold text-slate-600">Date</TableHead>
+                        <TableHead className="text-right font-semibold text-slate-600">Action</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {
                         applicants && applicants?.applications?.map((item) => (
-                            <tr key={item._id}>
-                                <TableCell>{item?.applicant?.fullname}</TableCell>
-                                <TableCell>{item?.applicant?.email}</TableCell>
-                                <TableCell>{item?.applicant?.phoneNumber}</TableCell>
+                            <TableRow key={item._id}>
+                                <TableCell className="font-medium text-slate-950">{item?.applicant?.fullname}</TableCell>
+                                <TableCell className="text-slate-700">{item?.applicant?.email}</TableCell>
+                                <TableCell className="text-slate-600">{item?.applicant?.phoneNumber}</TableCell>
                                 <TableCell >
                                     {
-                                        item.applicant?.profile?.resume ? <a className="text-brand-primary cursor-pointer" href={item?.applicant?.profile?.resume} target="_blank" rel="noopener noreferrer">{item?.applicant?.profile?.resumeOriginalName}</a> : <span>NA</span>
+                                        item.applicant?.profile?.resume ? <a className="font-medium text-brand-primary cursor-pointer hover:text-brand-secondary" href={item?.applicant?.profile?.resume} target="_blank" rel="noopener noreferrer">{item?.applicant?.profile?.resumeOriginalName}</a> : <span className="text-slate-400">NA</span>
                                     }
                                 </TableCell>
-                                <TableCell>{item?.applicant.createdAt.split("T")[0]}</TableCell>
-                                <TableCell className="float-right cursor-pointer">
+                                <TableCell className="text-slate-600">{item?.applicant.createdAt.split("T")[0]}</TableCell>
+                                <TableCell className="text-right cursor-pointer">
                                     <Popover>
-                                        <PopoverTrigger>
-                                            <MoreHorizontal />
+                                        <PopoverTrigger className="inline-flex h-9 w-9 items-center justify-center rounded-md text-slate-500 transition hover:bg-teal-50 hover:text-brand-primary">
+                                            <MoreHorizontal className="h-5 w-5" />
                                         </PopoverTrigger>
-                                        <PopoverContent className="w-32  bg-gray-800 text-white">
+                                        <PopoverContent className="w-32 border-slate-200 bg-white text-slate-700 shadow-lg">
                                             {
                                                 shortlistingStatus.map((status, index) => {
                                                     return (
-                                                        <div onClick={() => statusHandler(status, item?._id)} key={index} className='flex w-fit items-center my-2 cursor-pointer'>
+                                                        <div onClick={() => statusHandler(status, item?._id)} key={index} className='flex items-center rounded-md px-2 py-1.5 cursor-pointer transition hover:bg-slate-50 hover:text-brand-primary'>
                                                             <span>{status}</span>
                                                         </div>
                                                     )
@@ -74,7 +77,7 @@ const ApplicantsTable = () => {
 
                                 </TableCell>
 
-                            </tr>
+                            </TableRow>
                         ))
                     }
 

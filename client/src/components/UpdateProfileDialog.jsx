@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
@@ -69,82 +69,85 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     return (
         <div >
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="sm:max-w-[425px] bg-white text-brand-text" onInteractOutside={() => setOpen(false)}>
+                <DialogContent className="sm:max-w-xl" onInteractOutside={() => setOpen(false)}>
                     <DialogHeader>
                         <DialogTitle>Update Profile</DialogTitle>
+                        <DialogDescription>
+                            Keep your contact details, skills, and resume ready for recruiters.
+                        </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={submitHandler}>
-                        <div className='grid gap-4 py-4'>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="name" className="text-right">Name</Label>
+                        <div className='grid gap-4 py-2'>
+                            <div className='grid gap-2'>
+                                <Label htmlFor="fullname" className="text-slate-700">Name</Label>
                                 <Input
                                     id="fullname"
                                     name="fullname"
                                     type="text"
                                     value={input.fullname}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    className="bg-white"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="email" className="text-right">Email</Label>
+                            <div className='grid gap-2'>
+                                <Label htmlFor="email" className="text-slate-700">Email</Label>
                                 <Input
                                     id="email"
                                     name="email"
                                     type="email"
                                     value={input.email}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    className="bg-white"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="number" className="text-right">Number</Label>
+                            <div className='grid gap-2'>
+                                <Label htmlFor="phoneNumber" className="text-slate-700">Number</Label>
                                 <Input
                                     id="phoneNumber"
                                     name="phoneNumber"
                                     value={input.phoneNumber}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    className="bg-white"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="bio" className="text-right">Bio</Label>
+                            <div className='grid gap-2'>
+                                <Label htmlFor="bio" className="text-slate-700">Bio</Label>
                                 <Input
                                     id="bio"
                                     name="bio"
                                     value={input.bio}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    className="bg-white"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="skills" className="text-right">Skills</Label>
+                            <div className='grid gap-2'>
+                                <Label htmlFor="skills" className="text-slate-700">Skills</Label>
                                 <Input
                                     id="skills"
                                     name="skills"
                                     value={input.skills}
                                     onChange={changeEventHandler}
-                                    className="col-span-3"
+                                    className="bg-white"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="file" className="text-right">Resume</Label>
+                            <div className='grid gap-2'>
+                                <Label htmlFor="file" className="text-slate-700">Resume</Label>
                                 <Input
                                     id="file"
                                     name="file"
                                     type="file"
                                     accept="application/pdf"
                                     onChange={fileChangeHandler}
-                                    className="col-span-3"
+                                    className="cursor-pointer bg-white file:mr-3 file:rounded-md file:border-0 file:bg-teal-50 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-brand-primary"
                                 />
                             </div>
                         </div>
-                        <DialogFooter>
+                        <DialogFooter className="pt-2">
                             {
-                                loading ? <Button className="w-full my-4 primary-gradient">
+                                loading ? <Button className="w-full primary-gradient" disabled>
                                      <Loader2 className='mr-2 h-4 w-4  animate-spin' /> Please wait
                                       </Button> : 
-                                      <Button type="submit" className="w-full my-4 primary-gradient">Update</Button>
+                                      <Button type="submit" className="w-full primary-gradient">Update</Button>
                             }
                         </DialogFooter>
                     </form>

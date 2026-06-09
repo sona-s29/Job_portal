@@ -78,68 +78,80 @@ const CompanySetup = () => {
     return (
         <div>
             <Navbar />
-            <div className='max-w-xl mx-auto my-10 border  bg-black p-10 text-white'>
+            <main className='page-shell my-10'>
+            <div className='professional-card mx-auto max-w-3xl overflow-hidden'>
                 <form onSubmit={submitHandler}>
-                    <div className='flex items-center gap-5 p-8'>
-                        <Button onClick={() => navigate("/admin/companies")}  className="flex items-center gap-2 text-white font-semibold">
-                            <ArrowLeft />
-                            <span>back</span>
+                    <div className='flex flex-col gap-4 border-b border-slate-200 bg-white px-6 py-5 sm:flex-row sm:items-center sm:px-8'>
+                        <Button type="button" variant="outline" onClick={() => navigate("/admin/companies")}  className="flex w-fit items-center gap-2 border-slate-200 text-slate-700 hover:bg-slate-50">
+                            <ArrowLeft className='h-4 w-4' />
+                            <span>Back</span>
                            
                         </Button>
-                        <h1 className='font-bold text-3xl text-cyan-400'>Company Setup</h1>
-                    </div>
-                    <div className='grid grid-cols-2 gap-4 text-2xl'>
                         <div>
-                            <Label>Company Name</Label>
+                            <h1 className='text-2xl font-bold text-slate-950'>Company Setup</h1>
+                            <p className='mt-1 text-sm text-slate-500'>Update company profile details shown to candidates.</p>
+                        </div>
+                    </div>
+                    <div className='grid gap-4 p-6 sm:grid-cols-2 sm:p-8'>
+                        <div>
+                            <Label className="text-slate-700">Company Name</Label>
                             <Input
                                 type="text"
                                 name="name"
                                 value={input.name}
                                 onChange={changeEventHandler}
+                                className="mt-1 bg-white"
                             />
                         </div>
                         <div>
-                            <Label>Description</Label>
+                            <Label className="text-slate-700">Description</Label>
                             <Input
                                 type="text"
                                 name="description"
                                 value={input.description}
                                 onChange={changeEventHandler}
+                                className="mt-1 bg-white"
                             />
                         </div>
                         <div>
-                            <Label>Website</Label>
+                            <Label className="text-slate-700">Website</Label>
                             <Input
                                 type="text"
                                 name="website"
                                 value={input.website}
                                 onChange={changeEventHandler}
+                                className="mt-1 bg-white"
                             />
                         </div>
                         <div>
-                            <Label>Location</Label>
+                            <Label className="text-slate-700">Location</Label>
                             <Input
                                 type="text"
                                 name="location"
                                 value={input.location}
                                 onChange={changeEventHandler}
+                                className="mt-1 bg-white"
                             />
                         </div>
-                        <div>
-                            <Label>Logo</Label>
+                        <div className='sm:col-span-2'>
+                            <Label className="text-slate-700">Logo</Label>
                             <Input
                                 type="file"
                                 accept="image/*"
                                 onChange={changeFileHandler}
+                                className="mt-1 cursor-pointer bg-white file:mr-3 file:rounded-md file:border-0 file:bg-teal-50 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-brand-primary"
                             />
                         </div>
                     </div>
+                    <div className='border-t border-slate-200 px-6 py-5 sm:px-8'>
                     {
-                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4 bg-cyan-800">Update</Button>
+                        loading ? <Button className="w-full primary-gradient" disabled> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full primary-gradient">Update</Button>
                     }
+                    </div>
                 </form>
             </div>
-                    </div>
+            </main>
+        </div>
     )
 }
 

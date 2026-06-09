@@ -21,41 +21,46 @@ const CompaniesTable = () => {
         setFilterCompany(filteredCompany);
     },[companies,searchCompanyByText])
     return (
-       <div className='p-8 bg-[#0f172a]  min-h-screen rounded-md shadow-lg text-white border'>
-                    <h1 className='text-2xl text-center font-bold mb-6'>Companies List</h1>
-                  <Table className="rounded-lg overflow-hidden border border-[#1e3a8a]">
-                              <TableCaption className="p-4 text-center text-gray-400 text-sm">A list of your registered companies</TableCaption>
-                       <TableHeader className="bg-[#1e3a8a] font-bold text-gray-300 text-12x">
+        <div className='professional-card overflow-hidden'>
+            <div className='border-b border-slate-200 bg-white px-6 py-5'>
+                <h1 className='text-xl font-bold text-slate-950'>Companies List</h1>
+                <p className='mt-1 text-sm text-slate-500'>Review and update your registered companies.</p>
+            </div>
+            <Table>
+                <TableCaption className="p-4 text-center text-sm text-slate-500">A list of your registered companies</TableCaption>
+                <TableHeader className="bg-slate-50">
                     <TableRow>
-                        <TableHead>Logo</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead className="text-right">Action</TableHead>
+                        <TableHead className="font-semibold text-slate-600">Logo</TableHead>
+                        <TableHead className="font-semibold text-slate-600">Name</TableHead>
+                        <TableHead className="font-semibold text-slate-600">Date</TableHead>
+                        <TableHead className="text-right font-semibold text-slate-600">Action</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {
                         filterCompany?.map((company) => (
-                            <tr>
+                            <TableRow key={company?._id}>
                                 <TableCell>
                                     <Avatar>
                                         <AvatarImage src={company.logo}/>
                                     </Avatar>
                                 </TableCell>
-                                <TableCell>{company.name}</TableCell>
-                                <TableCell>{company.createdAt.split("T")[0]}</TableCell>
+                                <TableCell className="font-medium text-slate-950">{company.name}</TableCell>
+                                <TableCell className="text-slate-600">{company.createdAt.split("T")[0]}</TableCell>
                                 <TableCell className="text-right cursor-pointer">
                                     <Popover>
-                                        <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
-                                        <PopoverContent className="w-32  bg-gray-800 text-white">
-                                            <div onClick={()=> navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
+                                        <PopoverTrigger className="inline-flex h-9 w-9 items-center justify-center rounded-md text-slate-500 transition hover:bg-teal-50 hover:text-brand-primary">
+                                            <MoreHorizontal className="h-5 w-5" />
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-32 border-slate-200 bg-white text-slate-700 shadow-lg">
+                                            <div onClick={()=> navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 rounded-md px-2 py-1.5 cursor-pointer transition hover:bg-slate-50 hover:text-brand-primary'>
                                                 <Edit2 className='w-4' />
                                                 <span>Edit</span>
                                             </div>
                                         </PopoverContent>
                                     </Popover>
                                 </TableCell>
-                            </tr>
+                            </TableRow>
 
                         ))
                     }

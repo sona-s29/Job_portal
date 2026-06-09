@@ -21,14 +21,14 @@ const Companies = () => {
     return (
         <div>
             <Navbar />
-            <div className='max-w-6xl mx-auto my-10'>
-                <div className='flex items-center justify-between my-5'>
+            <div className='page-shell my-10'>
+                <div className='mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
                     <Input
-                        className="w-fit  bg-gray-800 text-white"
+                        className="w-full bg-white sm:w-72"
                         placeholder="Filter by name"
                         onChange={(e) => setInput(e.target.value)}
                     />
-                    <Button onClick={() => navigate("/admin/companies/create")} className='bg-gray-900 text-white'>Add New Company</Button>
+                    <Button onClick={() => navigate("/admin/companies/create")} className='primary-gradient'>Add New Company</Button>
                 </div>
                 <CompaniesTable/>
             </div>
